@@ -11,15 +11,26 @@ from parser import *
 LAST_DATE = "2020-01-20"
 
 
-def convert_to_dict(pandas_data_frame, flag=True):
+def convert_to_dict(pandas_data_frame, regime, flag=True):
     dict_to_convert_to = {}
     dct = pandas_data_frame.to_dict('index')
     for key, value in dct.items():
         readable_key = datetime.datetime.strptime(str(key), "%Y-%m-%d %H:%M:%S")
-        if flag:
-            dict_to_convert_to[readable_key.year] = value
-        else:
-            dict_to_convert_to[readable_key] = value
+        if regime == "max":
+            if flag:
+                dict_to_convert_to[f"Средний максимум температуры за {readable_key.year} год"] = value
+            else:
+                dict_to_convert_to[readable_key] = value
+        elif regime == "min":
+            if flag:
+                dict_to_convert_to[f"Средний минимум температуры за {readable_key.year} год"] = value
+            else:
+                dict_to_convert_to[readable_key] = value
+        elif regime == "close":
+            if flag:
+                dict_to_convert_to[readable_key.year] = value
+            else:
+                dict_to_convert_to[readable_key] = value
     return dict_to_convert_to
 
 
@@ -38,7 +49,6 @@ class Database:
 
 
 names = [os.path.splitext(x)[0][9:] for x in glob.glob('archived/*')]
-print(names)
 pgdb = Database('weather', 'root', 'password', 'db')
 connection, curs_1 = pgdb.connect()
 
@@ -140,7 +150,7 @@ def get_weather_stats(input_tables, today_tables):
         df.set_index(df[0], inplace=True)
 
         df_sort = df.iloc[(df[1] - today_weather).abs().argsort()[:10]]
-        closest_dct = convert_to_dict(df_sort[[1]].copy(), False)
+        closest_dct = convert_to_dict(df_sort[[1]].copy(), "close", False)
         storing_lst.append(closest_dct)
 
         if date_diff >= datetime.timedelta(730):
@@ -148,11 +158,11 @@ def get_weather_stats(input_tables, today_tables):
             subdf_min = df[[8]].copy()
             mean_max = subdf_max.groupby(pd.Grouper(freq='Y')).mean()
             mean_min = subdf_min.groupby(pd.Grouper(freq='Y')).mean()
-            new_mmax = convert_to_dict(mean_max)
-            new_mmin = convert_to_dict(mean_min)
+            new_mmax = convert_to_dict(mean_max, "max")
+            new_mmin = convert_to_dict(mean_min, "min")
             storing_lst.append(new_mmax)
             storing_lst.append(new_mmin)
-            storing_dct[key] = storing_lst
+        storing_dct[key] = storing_lst
         weatherstats_dict_handler.append(storing_dct)
     return weatherstats_dict_handler
 
@@ -191,13 +201,14 @@ def handle_results(lst):
             for k, v in input_weather.items():
                 storage[k] = [round(v, 2) for k, v in v.items()][0]
             return storage
-
         lst_out.append(weather_close)
-        lst_out.append(handle_weather(items[8], weather_max))
-        lst_out.append(handle_weather(items[9], weather_min))
-        lst_handler.append(lst_out)
+        if len(items) == 10:
+            lst_out.append(handle_weather(items[8], weather_max))
+            lst_out.append(handle_weather(items[9], weather_min))
+            lst_handler.append(lst_out)
+        else:
+            lst_handler.append(lst_out)
         del weather_close, dct_out, weather_max, weather_min, lst_out
-    # print(lst_handler)
     dictionary = dict(zip(lst_key_handler, lst_handler))
     return dictionary
 
@@ -206,5 +217,4 @@ def process(city, start, end):
     rows, today = get_data(city, start, end)
     lst = get_weather_stats(rows, today)
     dct = handle_results(lst)
-
     return dct

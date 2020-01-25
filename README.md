@@ -14,6 +14,10 @@ cd WeatherProject
 sudo docker-compose build
 ```
 #### Warning! May take a long time to build this project due to numpy/pandas 
+4. run project
+```
+sudo docker-compose up
+```
 4. after that you can run this project at
 > 0.0.0.0:5000
 ##### Avaliable cities:

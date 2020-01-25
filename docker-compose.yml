@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    ports: 
+      - '5431:5432'
+    environment:
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: 'password'
+      POSTGRES_DB: 'weather'
+    volumes:
+      - ./db/sql/noaa.sql:/docker-entrypoint-initdb.d/noaa.sql
+
+  db_uploader:
+    build: ./db
+    depends_on:
+      - db
+    links:
+      - db
+    volumes:
+     - ./db:/code
+
+  web:
+    build: ./app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+      - db_uploader
+    links:
+      - db
+    volumes:
+     - ./app:/code

@@ -1,0 +1,22 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+WTForms
+{% endblock %}
+
+
+{% block content %}
+    <h3>Данные собраны по 20.01</h3>
+<div class="container">
+    <form method="POST" action="{{ url_for('handle_data') }}">
+       <dl>
+       {{ wtf.quick_form(form)}}
+        <input class="btn btn-primary" type="submit" value="receive weather">
+        </dl>
+    </form>
+<div>
+    Please choose cities from ['Ankara', 'Astana', 'Bishkek', 'Ekaterinburg', 'Kaliningrad', 'Kazan', 'Kiev', 'Minsk', 'Moscow', 'Novosibirsk', 'Penza', 'Saint-Petersburg', 'Tver', 'Ufa', 'Voronezh']
+</div>
+</div>
+{% endblock %}

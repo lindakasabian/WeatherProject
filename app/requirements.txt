@@ -1,0 +1,8 @@
+Flask==1.1.1
+psycopg2
+flask_bootstrap
+flask_wtf
+wtforms
+wwo_hist
+requests
+

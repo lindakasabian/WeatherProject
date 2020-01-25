@@ -1,0 +1,17 @@
+CREATE TABLE public.noaa_weather
+(
+    date date NOT NULL,
+    tavg real,
+    station character(11) COLLATE pg_catalog."default" NOT NULL,
+    prcp real,
+    snwd real,
+    wind_direction character(2) COLLATE pg_catalog."default",
+    wind_speed real,
+    tmax real,
+    tmin real
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.noaa_weather
+    OWNER to postgres;

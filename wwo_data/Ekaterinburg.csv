@@ -1,3 +1,0 @@
-date_time,maxtempC,mintempC,totalSnow_cm,sunHour,uvIndex,uvIndex,moon_illumination,moonrise,moonset,sunrise,sunset,DewPointC,FeelsLikeC,HeatIndexC,WindChillC,WindGustKmph,cloudcover,humidity,precipMM,pressure,tempC,visibility,winddirDegree,windspeedKmph
-2020-01-21,-11,-16,0.1,2.0,1,1,18,06:13 AM,01:42 PM,09:17 AM,05:01 PM,-14,-18,-13,-18,14,87,96,0.1,1011,-11,5,154,8
-2020-01-22,-4,-11,2.0,2.0,1,1,11,07:27 AM,02:20 PM,09:15 AM,05:04 PM,-7,-12,-6,-12,23,86,91,3.1,990,-4,5,184,15

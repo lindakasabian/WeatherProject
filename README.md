@@ -1,5 +1,6 @@
 # WeatherProject
-is working right now
+- Requires docker and docker-compose (ver 3.0 or higher)
+
 installation:
 1. git clone this repository
 ```
@@ -18,6 +19,7 @@ sudo docker-compose build
 ```
 sudo docker-compose up
 ```
+###### Note! May require to sudo docker-compose down and then step 4 again to run properly
 5. after that you can run this project at
 > 0.0.0.0:5000
 ##### Avaliable cities:

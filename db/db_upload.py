@@ -18,7 +18,7 @@ class Database:
         return conn, cursor
 
 
-pgdb = Database('weather', 'root', 'password', 'db')
+pgdb = Database('postgres', 'postgres', 'password', 'db')
 connection, curs_1 = pgdb.connect()
 
 

@@ -49,7 +49,7 @@ class Database:
 
 
 names = [os.path.splitext(x)[0][9:] for x in glob.glob('archived/*')]
-pgdb = Database('weather', 'root', 'password', 'db')
+pgdb = Database('postgres', 'postgres', 'password', 'db')
 connection, curs_1 = pgdb.connect()
 
 
@@ -93,7 +93,6 @@ def get_weather_stats(input_tables, today_tables):
         for key in dictofdataframes.keys():
             dictofdataframes[key] = df[:][df[2] == key]
         return dictofdataframes
-
     DataFrameDict = create_dataframes(input_tables)
     TodayInputDict = create_dataframes(today_tables)
     weatherstats_dict_handler = []
@@ -218,3 +217,4 @@ def process(city, start, end):
     lst = get_weather_stats(rows, today)
     dct = handle_results(lst)
     return dct
+

@@ -9,5 +9,5 @@ RUN pip install numpy cython pandas
 
 RUN pip install -r requirements.txt
 
-# Run app.py when container is launched
 CMD ["python", "-u", "app.py"]
+

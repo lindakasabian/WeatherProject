@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS noaa_weather;
-
 CREATE TABLE noaa_weather
 (
     date date NOT NULL,

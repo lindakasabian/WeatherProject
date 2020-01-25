@@ -16,6 +16,9 @@ services:
   db_uploader:
     expose:
       - 8080
+    restart: on-failure
+    command: ["python", "./db_upload.py"]
+    command: ["python", "./db_upload.py"]
     ports:
       - "8080:8080"
     build: ./db
@@ -37,3 +40,4 @@ services:
       - db
     volumes:
      - ./app:/code
+    

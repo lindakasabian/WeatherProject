@@ -18,7 +18,7 @@ sudo docker-compose build
 ```
 sudo docker-compose up
 ```
-4. after that you can run this project at
+5. after that you can run this project at
 > 0.0.0.0:5000
 ##### Avaliable cities:
 - Ankara

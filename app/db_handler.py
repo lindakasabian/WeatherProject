@@ -4,9 +4,7 @@ import glob
 import numpy as np
 import pandas as pd
 import psycopg2
-
 from get_data import *
-from parser import *
 
 LAST_DATE = "2020-01-20"
 
@@ -93,6 +91,7 @@ def get_weather_stats(input_tables, today_tables):
         for key in dictofdataframes.keys():
             dictofdataframes[key] = df[:][df[2] == key]
         return dictofdataframes
+
     DataFrameDict = create_dataframes(input_tables)
     TodayInputDict = create_dataframes(today_tables)
     weatherstats_dict_handler = []
@@ -200,6 +199,7 @@ def handle_results(lst):
             for k, v in input_weather.items():
                 storage[k] = [round(v, 2) for k, v in v.items()][0]
             return storage
+
         lst_out.append(weather_close)
         if len(items) == 10:
             lst_out.append(handle_weather(items[8], weather_max))
@@ -217,4 +217,3 @@ def process(city, start, end):
     lst = get_weather_stats(rows, today)
     dct = handle_results(lst)
     return dct
-

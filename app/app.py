@@ -1,10 +1,9 @@
+from db_handler import process
 from flask import Flask, render_template, request, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_wtf import Form
 from wtforms import DateField, Field, widgets
 from wtforms.validators import DataRequired, ValidationError, AnyOf
-
-from db_handler import process
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -41,7 +40,7 @@ class TagListField(Field):
 
 class LoginForm(Form):
     city = TagListField('enter city (comma separated)', validators=[DataRequired(), AnyOf(values=cities,
-                                                                        message="wrong city")])
+                                                                                          message="wrong city")])
     plan_start = DateField('start date', validators=[DataRequired()], format='%Y-%m-%d')
     plan_end = DateField('end date', validators=[DataRequired()], format='%Y-%m-%d')
 
@@ -55,7 +54,6 @@ class Result:
 def index():
     form = LoginForm()
     if form.validate_on_submit():
-        print(form.city.data)
         return redirect(url_for('handle_data'))
     return render_template('index.html', form=form)
 
@@ -66,7 +64,6 @@ def handle_data():
     city_form_2 = city_form.replace(" ", "").split(",")
     start_form = request.form.get("plan_start")
     end_form = request.form.get("plan_end")
-    print("city_form_2", "start_form", "end_form")
     out = process(city_form_2, start_form, end_form)
     lst_of_cities, lst_of_values = [], []
     for key, value in out.items():
